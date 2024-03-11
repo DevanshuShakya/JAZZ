@@ -1,0 +1,10 @@
+Flask==2.2.2
+Flask-Login==0.6.2
+Flask-Security==3.0.0
+Flask-SQLAlchemy==3.0.3
+pillow==9.5.0
+flask-restful
+email_validator
+numpy
+werkzeug==2.2.2
+bcrypt

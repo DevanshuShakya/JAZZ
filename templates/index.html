@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JAZZ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Megrim&family=Zeyada&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation bar -->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg" style="padding:20px;">
+            <div class="container-fluid">
+
+                <!-- Company -->
+                <a class="navbar-brand" href="#" style="font-family: Megrim;">
+                    <h1 style="font-weight: bold; font-size: 250;">JAZZ</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 50px;">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        {% if current_user.is_authenticated %}
+
+                        <!-- <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="#">Profile</a>
+                        </li> -->
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        {% if current_user.roles!=[] and current_user.roles[0].name=='admin' %}
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="/admin">Admin Dashboard</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="/creator">Creator Account</a>
+                        </li>
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                        </li>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="/user_profile">Profile</a>
+                        </li>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        {% if current_user!=[] or current_user.roles[0].name!='admin' %}
+                        <button class="btn btn-dark" style="font-family: century gothic;" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Your
+                            Playlists</button>
+                        {% endif %}
+
+                        {% else %}
+
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login" style="font-size: large;">Login</a>
+                        </li>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li> -->
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register" style="font-size: large;">Sign up</a>
+                        </li>
+
+                        {% endif %}
+
+
+
+
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        </li> -->
+
+                    </ul>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <form class="d-flex" role="search">
+                        <input class="form-control " type="search" placeholder="Search" aria-label="Search"
+                            style="border-radius: 60px;">
+                        <button class="btn btn-outline-success" type="submit"
+                            style="border: none; padding-bottom: 10px;border-radius: 50px;"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-search" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg></button>
+                    </form>
+
+                </div>
+
+            </div>
+        </nav>
+    </div>
+
+
+    <!-- Off canvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasTopLabel">Your Playlists</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            {% for playlist in playlists %}
+
+            <a href="/playlist/edit/{{playlist.id}}" style="text-decoration: none;">
+            <div class="card" style="margin-bottom: 10px; background-color: #2a2d2e; color: white;">
+                <div class="card-body" style="font-family: rock salt; font-weight: bolder;">
+                    {{playlist.name}} 
+                    <!-- <a href="/playlist/edit/{{playlist.id}}">Edit</a> -->
+                </div>
+              </div>
+            </a>
+
+           
+            
+            {% endfor %}
+            <div class="row" style="text-align: end;">
+                <div class="col-sm">
+                    <a href="/create_playlist"><button type="button" style="font-family: century gothic;" class="btn btn-outline-dark">Create
+                        new</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner -->
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm"
+                style="margin-top: 125px;font-family: Rock Salt;font-size: 300%; text-align: center; color:rgb(88, 88, 88);">
+                Feel the rhythm, <br> groove to the <br> melody,<br> enjoy the <span
+                    style="font-family: Megrim;font-weight: 700;font-size: larger; color: black;">jazz</span>.<br>
+                <br>
+
+                <button class="btn btn-success" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" type="button"
+                    style="padding: 15px;"><span style="font-weight: bold; font-size: x-large;">Rock &nbsp;your&nbsp;
+                        tunes</span></button>
+
+
+
+
+
+
+            </div>
+            <!-- <div class="col-sm"></div> -->
+            <div class="col-sm"><img src="../static/img/img4.jpg" width="110%"></div>
+        </div>
+
+    </div>
+
+
+    <!-- Recommendation -->
+    <div class="container text-center" style="margin-top: 50px;">
+
+
+        <div
+            style="text-align: left;padding-left: 20px; font-size: x-large;font-family: Century Gothic;padding-bottom: 5px;">
+            Recommended Songs
+        </div>
+        <div class="row">
+
+
+
+            {% for song in songs %}
+            <div class="col-sm-4" style="padding: 20px;">
+                <div class="card"
+                    style="width: 22rem; border: none; background-color: #f1f3f4;border-radius: 60px; height:7rem;">
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="card-body" style="padding: 30px;padding-left: 40px; text-align: left;">
+                                <h5 class="card-title" style="font-family: Century Gothic;">{{song.title}}
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary"
+                                    style="font-family: Century Gothic; font-size: small; font-weight: bold; color: grey;">
+                                    {{song.singers}}</h6>
+                                <br>
+                            </div>
+
+                        </div>
+                        <div class="col-2">
+                            <div style="text-align: left;padding-top: 32px;padding-right: 10px;">
+
+                                <a href="{{url_for('watch',id=song.id)}}" style="text-decoration: none;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black"
+                                        class="bi bi-play-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                                    </svg>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+
+
+
+
+
+
+        </div>
+
+
+        <br>
+        <br>
+        <div
+            style="text-align: left;padding-left: 20px; font-size: x-large;font-family: Century Gothic;padding-bottom: 5px;">
+            Recommended Albums
+        </div>
+        <div class="row">
+
+
+
+            {% for album in albums %}
+            <div class="col-sm-4" style="padding: 20px;">
+                <div class="card"
+                    style="width: 22rem; border: none; background-color: #f1f3f4;border-radius: 60px; height:7rem;">
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="card-body" style="padding: 30px;padding-left: 40px; text-align: left;">
+                                <h5 class="card-title" style="font-family: Century Gothic;">{{album.name}}
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary"
+                                    style="font-family: Century Gothic; font-size: small; font-weight: bold; color: grey;">
+                                    {{album.artist}}</h6>
+                                <br>
+                            </div>
+
+                        </div>
+                        <div class="col-2">
+                            <div style="text-align: left;padding-top: 32px;padding-right: 10px;">
+
+                                <a href="{{url_for('play_album',album_id=album.id, song_id=0)}}" style="text-decoration: none;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black"
+                                        class="bi bi-play-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                                    </svg>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+    <!-- Footer -->
+    <div style="text-align: center; margin-top: 100px;">
+        @JAZZ created by Devanshu Shakya
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

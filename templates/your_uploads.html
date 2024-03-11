@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JAZZ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Megrim&family=Zeyada&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation bar -->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg" style="padding:20px;">
+            <div class="container-fluid">
+
+                <!-- Company -->
+                <a class="navbar-brand" href="#" style="font-family: Megrim;">
+                    <h1 style="font-weight: bold; font-size: 250;">JAZZ</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 50px;">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        
+                        {% if current_user.is_authenticated %}
+                        
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="#">Profile</a>
+                        </li>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="/creator">Creator Account</a>
+                        </li>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <li class="nav-item" style="font-size: large;">
+                            <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                        </li>
+
+
+                        {% else %}
+
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login" style="font-size: large;">Login</a>
+                        </li>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li> -->
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register" style="font-size: large;">Sign up</a>
+                        </li>
+
+                        {% endif %}
+
+
+
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        </li> -->
+                       
+                    </ul>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <form class="d-flex" role="search">
+                        <input class="form-control " type="search" placeholder="Search" aria-label="Search"
+                            style="border-radius: 60px;">
+                        <button class="btn btn-outline-success" type="submit"
+                            style="border: none; padding-bottom: 10px;border-radius: 50px;"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-search" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg></button>
+                    </form>
+
+                </div>
+
+            </div>
+        </nav>
+    </div>
+
+
+   
+
+    <!-- Recommendation -->
+    <div class="container text-center" style="margin-top: 50px;">
+       
+  
+        <div
+          style="text-align: left;padding-left: 20px; font-size: x-large;font-family: Century Gothic;padding-bottom: 5px;">
+          Your uplaods
+        </div>
+        <div class="row">
+  
+  
+  
+          {% for song in songs %}
+          <div class="col-sm-4" style="padding: 20px;">
+            <div class="card"
+              style="width: 22rem; border: none; background-color: #f1f3f4;border-radius: 60px; height:7rem;">
+              <div class="row">
+                <div class="col-9">
+                  <div class="card-body" style="padding: 30px;padding-left: 40px; text-align: left;">
+                    <h5 class="card-title" style="font-family: Century Gothic;">{{song.title}}
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary"
+                      style="font-family: Century Gothic; font-size: small; font-weight: bold; color: grey;">
+                      {{song.singers}}</h6>
+                    <br>
+                  </div>
+  
+                </div>
+                <div class="col-2">
+                  <div style="text-align: left;padding-top: 32px;padding-right: 10px;">
+  
+                    <a href="{{url_for('watch',id=song.id)}}" style="text-decoration: none;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-play-fill"
+                        viewBox="0 0 16 16">
+                        <path
+                          d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                      </svg>
+                    </a>
+                  </div>
+  
+  
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          {% endfor %}
+  
+  
+  
+  
+  
+  
+  
+  
+        </div>
+  
+       
+      </div>
+    <!-- Footer -->
+    <div style="text-align: center; margin-top: 100px;">
+        @JAZZ created by Devanshu Shakya
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

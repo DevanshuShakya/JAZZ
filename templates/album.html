@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Megrim&family=Zeyada&family=Rock+Salt&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container" style="padding-bottom: 40px;">
+
+        <!-- Navbar -->
+        <div class="container">
+            <nav class="navbar navbar-expand-lg" style="padding:20px;">
+                <div class="container-fluid">
+
+                    <!-- Company -->
+                    <a class="navbar-brand" href="#" style="font-family: Megrim;">
+                        <h1 style="font-weight: bold; font-size: 250;">JAZZ</h1>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 50px;">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                            {% if current_user.is_authenticated %}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <li class="nav-item" style="font-size: large;">
+                                <a class="nav-link" aria-current="page" href="/">Home</a>
+                            </li>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <li class="nav-item" style="font-size: large;">
+                                <a class="nav-link" aria-current="page" href="/creator">Dashboard</a>
+                            </li>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li class="nav-item" style="font-size: large;">
+                                <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                            </li>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+                            {% else %}
+
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login" style="font-size: large;">Login</a>
+                            </li>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/register" style="font-size: large;">Sign up</a>
+                            </li>
+
+                            {% endif %}
+
+                        </ul>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <form class="d-flex" role="search">
+                            <input class="form-control " type="search" placeholder="Search" aria-label="Search"
+                                style="border-radius: 60px;">
+                            <button class="btn btn-outline-success" type="submit"
+                                style="border: none; padding-bottom: 10px;border-radius: 50px;"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-search" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                </svg></button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+
+        <br>
+
+        {% if album %}
+        <!-- this is edit -->
+
+        <form action="/album/edit/{{album.id}}" method="POST">
+
+            <div class="row">
+                <div class="col-sm-1"></div>
+
+                <div class="col-sm mb-3 input-group-lg" style="font-family: rock salt;width: 50%;">
+                    <input style="padding: 20px;" type="text" name="name" class="form-control"
+                        id="formGroupExampleInput" value="{{album.name}}">
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+               <!-- Genre and Artist -->
+               <div class="row" style="padding-left: 50px; padding-right: 50px;font-family: century gothic;;"  >
+                
+                
+                <div class="col-sm-6" >
+                    <label for="inputEmail4" class="form-label">Genre</label>
+                    <input name="genre" value="{{album.genre}}" type="text" class="form-control" id="inputEmail4">
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="inputPassword4" class="form-label">Artist</label>
+                    <input name="artist" value="{{album.artist}}" type="text" class="form-control" id="inputPassword4">
+                  </div>
+          
+        </div>
+
+            <br>
+            <div class="container" style="width: 96%;">
+
+                <div class="row">
+
+
+                    {% for song in album_songs %}
+                    <div class="col-sm-6">
+                        <div class="card" style="margin: 10px;">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <h4>{{song.title}}</h4>
+
+                                        <h6 style="color: grey;">{{song.singers}}</h6>
+                                    </div>
+                                    <div class="col-sm" style="padding-top: 17px;">
+                                        <a href="{{url_for('delete_from_album',song_id=song.id, album_id=album.id)}}"
+                                            style="text-decoration: none;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="#dc3545" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                            </svg>
+
+
+                                        </a>
+
+                                        &nbsp;
+                                        &nbsp;
+                                        <a href="/watch/{{song.id}}"
+                                            style="text-decoration: none;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black"
+                                                class="bi bi-play-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+
+                </div>
+                <br>
+                <br>
+
+                {% if songs!=[] %}
+                <h4 style="font-family: century gothic; text-align: center;">Add more songs</h4>
+                {% else %}
+                <br>
+                {% endif %}
+
+
+                    <div class="row">
+
+
+                    {% for song in songs %}
+                    <div class="col-sm-6">
+                        <div class="card" style="margin: 10px;">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-sm-11">
+                                        <h4>{{song.title}}</h4>
+
+                                        <h6 style="color: grey;">{{song.singers}}</h6>
+                                    </div>
+                                    <div class=" col-sm form-check" style="margin-top: 20px;">
+
+                                        <input name="songs" class="form-check-input" type="checkbox" value="{{song.id}}"
+                                            id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm" style="text-align: end;font-size: larger;font-family: century gothic; ">
+                        <button value="submit" type="submit" class="btn btn-success btn-lg"
+                            style="border-radius: 0px;padding: .4%;">Save</button>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                        <button class="btn btn-danger btn-lg" style="border-radius: 0px; padding: .1%;">
+                            <a href="{{url_for('delete_album',album_id=album.id)}}"
+                                style="text-decoration: none;color: white; font-size: larger;font-family: century gothic;">
+                                Delete
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        {% else %}
+        <br>
+        <!-- this is create -->
+
+        <form action="/album/create" method="POST">
+            <div class="row">
+                <div class="col-sm-1"></div>
+
+                <div class="col-sm mb-3 input-group-lg" style="font-family: rock salt;width: 50%;">
+                    <input style="padding: 20px; color: grey;" type="text" name="name" class="form-control"
+                        id="formGroupExampleInput" placeholder="Name&nbsp; your&nbsp; Album">
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+
+            <!-- Genre and Artist -->
+            <div class="row" style="padding-left: 50px; padding-right: 50px;font-family: century gothic;;"  >
+                
+                
+                    <div class="col-sm-6" >
+                        <label for="inputEmail4" class="form-label">Genre</label>
+                        <input name="genre" type="text" class="form-control" id="inputEmail4">
+                      </div>
+                      <div class="col-sm-6">
+                        <label for="inputPassword4" class="form-label">Artist</label>
+                        <input name="artist" type="text" class="form-control" id="inputPassword4">
+                      </div>
+              
+            </div>
+
+            <br>
+            <div class="container" style="width: 96%;">
+
+                <div class="row">
+
+
+                    {% for song in songs %}
+                    <div class="col-sm-6">
+                        <div class="card" style="margin: 10px;">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-sm-11">
+                                        <h4>{{song.title}}</h4>
+
+                                        <h6 style="color: grey;">{{song.singers}}</h6>
+                                    </div>
+                                    <div class=" col-sm form-check" style="margin-top: 20px;">
+
+                                        <input name="songs" class="form-check-input" type="checkbox" value="{{song.id}}"
+                                            id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm" style="text-align: end;">
+                        <button value="submit" type="submit" class="btn btn-success btn-lg"
+                            style="border-radius: 0px;">Save</button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {% endif %}
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

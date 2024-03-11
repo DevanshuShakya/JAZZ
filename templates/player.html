@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Player JAZZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Megrim&family=Zeyada&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="container">
+
+    <nav class="navbar navbar-expand-lg" style="padding:20px;">
+      <div class="container-fluid">
+
+        <!-- Company -->
+        <a class="navbar-brand" href="#" style="font-family: Megrim;">
+          <h1 style="font-weight: bold; font-size: 250;">JAZZ</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 50px;">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+            <li class="nav-item" style="font-size: large;">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li class="nav-item" style="font-size: large;">
+              <a class="nav-link" aria-current="page" href="/creator">User Account</a>
+            </li> -->
+            <li class="nav-item" style="font-size: large;">
+
+
+            </li>
+
+
+            <li class="nav-item" style="font-size: large;">
+              <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+            </li>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            {% if current_user.roles[0].name!='admin' %}            
+
+            <button class="btn btn-dark" style="font-family: century gothic;" type="button" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Your Playlists</button>
+
+              {% endif %}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-success" style="font-family: century gothic;" type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">More
+              songs</button>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-success" style="font-family: century gothic;" type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
+              aria-controls="offcanvasBottom">Albums</button>
+
+
+
+
+
+
+
+
+
+
+          </ul>
+
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Off canvas -->
+
+    <!-- Playlist songs -->
+
+    {% if playlist %}
+    <div class="offcanvas offcanvas-end" style="font-family: century gothic;" tabindex="-1" id="offcanvasTop"
+      aria-labelledby="offcanvasTopLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasTopLabel">Playing &nbsp; <span
+            style="font-family: rock salt; font-weight: bolder;"> {{playlist.name}} </span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+        <!-- Accordion -->
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                aria-controls="panelsStayOpen-collapseOne" style="font-family: rock salt; font-weight: bolder;">
+                {{playlist.name}}
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+
+                {% for song in songs %}
+
+                <div class="card" style="margin-bottom: 10px; background-color: #f1f3f4; border: none;">
+                  <div class="card-body">
+
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <h5>{{song.title}}</h5>
+                        <h6 style="color: #595c5f;">{{song.singers}}</h6>
+                      </div>
+                      <div class="col-sm" style="margin-top: 12px;">
+                        <a href="{{url_for('play_playlist',playlist_id=playlist.id,song_id=song.id)}}"
+                          style="text-decoration: none; color: black;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black"
+                            class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path
+                              d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                          </svg>
+                        </a>
+
+                      </div>
+                    </div>
+
+                    <!-- <a href="/playlist/edit/{{playlist.id}}">Edit</a> -->
+                  </div>
+                </div>
+
+                {% endfor %}
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <br>
+        <br>
+        <h4>Other Playlists</h4>
+        <br>
+
+        {% for playlist in playlists %}
+
+        <a href="/playlist/edit/{{playlist.id}}" style="text-decoration: none;">
+          <div class="card" style="margin-bottom: 10px;">
+            <div class="card-body">
+              {{playlist.name}}
+              <!-- <a href="/playlist/edit/{{playlist.id}}">Edit</a> -->
+            </div>
+          </div>
+        </a>
+
+
+
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+    {% else %}
+    <div class="offcanvas offcanvas-end" style="font-family: century gothic;" tabindex="-1" id="offcanvasTop"
+      aria-labelledby="offcanvasTopLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasTopLabel">Your Playlists</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+
+
+
+        {% for playlist in playlists %}
+
+        <a href="/playlist/edit/{{playlist.id}}" style="text-decoration: none;">
+          <div class="card" style="margin-bottom: 10px;">
+            <div class="card-body" style="font-family: rock salt; font-weight: bolder;">
+              {{playlist.name}}
+              <!-- <a href="/playlist/edit/{{playlist.id}}">Edit</a> -->
+            </div>
+          </div>
+        </a>
+
+
+
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- More songs -->
+    <div class="offcanvas offcanvas-end" style="font-family: century gothic;" tabindex="-1" id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">More songs</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+
+        {% for song in all_songs %}
+
+        <div class="card" style="margin-bottom: 10px; background-color: #f1f3f4; border: none;">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-9">
+                <h5>{{song.title}}</h5>
+                <h6 style="color: #595c5f;">{{song.singers}}</h6>
+              </div>
+              <div class="col-sm" style="margin-top: 12px;">
+                <a href="{{url_for('watch',id=song.id)}}" style="text-decoration: none; color: black;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-play-fill"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                  </svg>
+                </a>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        {% endfor %}
+
+      </div>
+    </div>
+
+    <!-- Albums -->
+
+    {% if album %}
+    <div class="offcanvas offcanvas-end" style="font-family: century gothic;" tabindex="-1" id="offcanvasBottom"
+      aria-labelledby="offcanvasBottomLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasTopLabel">Playing &nbsp; <span
+            style="font-family: rock salt; font-weight: bolder;"> {{album.name}} </span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+        <!-- Accordion -->
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                aria-controls="panelsStayOpen-collapseOne" style="font-family: rock salt; font-weight: bolder;">
+                {{album.name}}
+
+
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+
+                {% for song in album_songs %}
+
+                <div class="card" style="margin-bottom: 10px; background-color: #f1f3f4; border: none;">
+                  <div class="card-body">
+
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <h5>{{song.title}}</h5>
+                        <h6 style="color: #595c5f;">{{song.singers}}</h6>
+                      </div>
+                      <div class="col-sm" style="margin-top: 12px;">
+                        <a href="{{url_for('play_album',album_id=album.id, song_id=song.id)}}"
+                          style="text-decoration: none; color: black;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black"
+                            class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path
+                              d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                          </svg>
+                        </a>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {% endfor %}
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <br>
+        <br>
+        <h4>Other Albums</h4>
+        <br>
+
+        {% for album in albums %}
+
+        <a href="{{url_for('play_album', album_id=album.id, song_id=0)}}" style="text-decoration: none;">
+          <div class="card" style="margin-bottom: 10px;">
+            <div class="card-body">
+              {{album.name}}
+            </div>
+          </div>
+        </a>
+
+
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+
+    <div class="offcanvas offcanvas-end" style="font-family: century gothic;" tabindex="-1" id="offcanvasBottom"
+      aria-labelledby="offcanvasBottomLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasTopLabel">Albums</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+
+
+
+        {% for album in albums %}
+
+        <a href="{{url_for('play_album', album_id= album.id, song_id= 0)}}" style="text-decoration: none;">
+          <div class="card" style="margin-bottom: 10px;">
+            <div class="card-body" style="font-family: rock salt; font-weight: bolder;">
+              {{album.name}}
+              <span style="font-family: century gothic; font-weight: 100;font-size: small;"> by {{album.artist}}</span>
+
+            </div>
+          </div>
+        </a>
+
+
+
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+
+    {% endif %}
+
+
+
+
+
+
+    <div class="row">
+
+      <div class="col-sm">
+        <div class="card"
+          style="width: 100%;height: 100%; background-color: #f1f3f4; padding-bottom: 50px;border:none; border-radius: 60px;">
+          <div class="card-body">
+
+            <div class="card" style="width: 100%;height:100%; border: none;border-radius: 45px;">
+              <div class="card-body" style="padding-left: 30px;">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <h3 class="card-title">{{song.title}}</h3>
+
+
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{song.singers}}</h6>
+                  </div>
+                  <div class="col-sm" style="font-family: century gothic;">
+
+                    {% if current_user.roles[0].name=='admin' %}
+
+                    <a href="{{url_for('delete_song',song_id=song.id)}}">
+                    <button class="btn btn-danger" style="border-radius: 0%; ">Delete</button>
+                  </a>
+
+                    {% else %}
+
+                    <!-- Button trigger modal -->
+                    <button style="padding: 10px;" type="button" class="btn btn-light" data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">
+
+                      {% if (rating.rating) != NoneType %}
+
+                      {% for i in range(rating.rating) %}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffd82c"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>
+                      {% endfor %}
+                      {% else %}
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffd82c"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>&nbsp; <span style="font-family: rock salt; color: black;">Rate it</span>
+                      {% endif %}
+                    </button>
+
+                   
+
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="row" style="padding-left: 30px; padding-top: 20px;">
+                            <div class="col-sm-10">
+                              <h3 style="font-family: century gothic;">{{song.title}}</h3>
+                              <h5 style="color: #595c5f;">{{song.singers}}</h5>
+                            </div>
+                            <div class="col-sm">
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="modal-body">
+                            <form action="/rating/{{song.id}}" method="POST">
+                              <label style="font-family: century gothic;" for="customRange2" class="form-label"><svg
+                                  style="padding-bottom: 2px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                  fill="#ffd257" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                  <path
+                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>&nbsp; Rate it</label>
+                              <input type="range" name="rating" value="{{rating.rating}}" class="form-range" min="1"
+                                max="5" id="customRange2">
+
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                              data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-outline-success">Submit</button>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                    {% endif %}
+
+
+                  </div>
+
+                </div>
+
+
+                <br>
+                <pre class="card-text" style="height: 23rem;">{{song.lyrics}}</pre>
+              </div>
+            </div>
+            <audio autoplay controls style="width: 90%;padding-left: 50px;">
+              <source src="/static/audio/{{song_name}}" type="audio/mp3">
+            </audio>
+
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

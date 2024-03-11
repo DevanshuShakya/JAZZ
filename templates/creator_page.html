@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creator JAZZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Megrim&family=Zeyada&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <nav class="navbar navbar-expand-lg" style="padding:20px; padding-top: 10px;">
+      <div class="container-fluid">
+
+        <!-- Company -->
+        <a class="navbar-brand" href="#" style="font-family: Megrim;">
+          <h1 style="font-weight: bold; font-size: 250;">JAZZ</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 50px;">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+            <li class="nav-item" style="font-size: large;">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li class="nav-item" style="font-size: large;">
+              <a class="nav-link" aria-current="page" href="/creator">User Account</a>
+            </li> -->
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <li class="nav-item" style="font-size: large;">
+              <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+            </li>
+
+
+            <button style="margin-left: 80px;" class="btn btn-dark" type="button" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Your Albums</button>
+          </ul>
+
+        </div>
+
+      </div>
+    </nav>
+
+
+
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+      id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Your Albums</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+
+        {% for album in albums %}
+        <a href="/album/edit/{{album.id}}" style="text-decoration: none;">
+          <div class="card">
+            <div class="card-body" style="font-family: century gothic;">
+              <h5 style="font-family: rock salt;">{{album.name}}</h5>
+            </div>
+          </div>
+        </a>
+
+        <br>
+        {% endfor %}
+
+      </div>
+    </div>
+
+    <h1 style="font-family: century gothic;">Dashboard</h1>
+    <br>
+
+    <div class="row" style="font-family: century gothic;">
+      <div class="col-sm-9" style="text-align: left;">
+
+       
+
+        <!-- Display the Plotly figure -->
+        <div id="plotly-plot">
+          {{ plotly_html | safe }}
+        </div>
+      </div>
+      <div class="col-sm-3" style="text-align: center;">
+       
+        <div class="card">
+          <div class="card-body">
+            <h5>Total songs uploaded</h5>
+            <h1>{{total_songs}}</h1>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h5>Average Rating</h5>
+            <h1>{{avg_rating[:4]}}</h1>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h5>Total Albums</h5>
+            <h1>{{total_albums}}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   <br>
+
+    <div class="row" style="justify-content: center;">
+
+      <div class="col-sm" style="justify-content: center;">
+        <a href="/upload_song" style="text-decoration: none;">
+          <div class="card"
+            style="width: 80%; border: none; background-color:#157347; color: white; border-radius: 60px; margin: 7px; margin-left: 27px; ">
+            <div class="card-body" style="text-align: center;">
+              <h5 class="card-title" style="font-weight: normal;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                  class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                </svg>
+                &nbsp;
+                <span style="font-family: rock salt; padding-top: 4px;">
+                  Upload song</span>
+              </h5>
+            </div>
+          </div>
+        </a>
+
+
+      </div>
+
+      <div class="col-sm" style="justify-content: center;">
+        <a href="/album/create" style="text-decoration: none;">
+
+
+          <div class="card"
+            style="width: 80%; border: none; background-color:#157347; color: white; border-radius: 50px; margin: 7px; margin-left: 27px; ">
+            <div class="card-body" style="text-align: center;">
+              <h5 class="card-title" style="font-weight: normal;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                  class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                </svg>
+                &nbsp;
+                <span style="font-family: rock salt; padding-top: 4px;">
+                  Create Album</span>
+              </h5>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+
+
+  
+
+
+    <div class="container text-center" style="margin-top: 50px;">
+      <hr>
+      <br>
+
+      <div
+        style="text-align: left;padding-left: 20px; font-size: x-large;font-family: Century Gothic;padding-bottom: 5px;">
+        Your Uploads
+      </div>
+      <div class="row">
+
+
+
+        <!-- 3.Can't help falling in love with you -->
+        {% for song in songs %}
+        <div class="col-sm-4" style="padding: 20px;">
+          <div class="card"
+            style="width: 24rem; border: none; background-color: #f1f3f4;border-radius: 60px; height:7rem;">
+            <div class="row">
+              <div class="col-8">
+                <div class="card-body" style="padding: 30px;padding-left: 40px; text-align: left;">
+                  <h5 class="card-title" style="font-family: Century Gothic;">{{song.title}}
+                  </h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary"
+                    style="font-family: Century Gothic; font-size: small; font-weight: bold; color: grey;">
+                    {{song.singers}}</h6>
+                  <br>
+                </div>
+
+              </div>
+              <div class="col-3">
+                <div style="text-align: left;padding-top: 32px;padding-right: 10px;">
+                  <div class="row">
+                    <div class="col-6">
+                      <a href="{{url_for('edit_song',song_id=song.id)}}" style="text-decoration: none; color:#157347;">
+                        <svg style="margin-top: 9px ;" xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                          fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                          <path
+                            d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                        </svg>
+                      </a>
+                    </div>
+
+                    <div class="col-6">
+                      <a href="{{url_for('watch',id=song.id)}}" style="text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black"
+                          class="bi bi-play-fill" viewBox="0 0 16 16">
+                          <path
+                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>
